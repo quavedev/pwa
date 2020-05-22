@@ -52,7 +52,9 @@ export const getPwaSettings = (data = {}) => {
     icons: icons.filter((icon) => !!icon.src),
     gcm_sender_id: gcmSenderId,
     prefer_related_applications:
-      preferRelatedApplications || !!(googlePlayAppId || appleItunesAppId),
+      preferRelatedApplications == null
+        ? !!(googlePlayAppId || appleItunesAppId)
+        : preferRelatedApplications,
     related_applications: [
       googlePlayAppId && {
         platform: 'play',
@@ -95,3 +97,4 @@ export const registerPwaManifestHandler = (customSettings) => {
     )
   );
 };
+
