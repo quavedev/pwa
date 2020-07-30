@@ -7,14 +7,14 @@ const settings = getSettings({ packageName: PACKAGE_NAME });
 
 export const MANIFEST_PATH = settings.manifestPath || '/pwa.json';
 
-export const getGoolePlayAppUrl = ({ googlePlayAppId }) => {
+export const getGoolePlayAppUrl = ({ googlePlayAppId } = settings || {}) => {
   if (!googlePlayAppId) {
     return null;
   }
   return `https://play.google.com/store/apps/details?id=${googlePlayAppId}`;
 };
 
-export const getAppleItunesAppUrl = ({ appleItunesAppId }) => {
+export const getAppleItunesAppUrl = ({ appleItunesAppId } = settings || {}) => {
   if (!appleItunesAppId) {
     return null;
   }
@@ -49,7 +49,7 @@ export const getPwaSettings = (data = {}) => {
     name,
     short_name: shortName,
     description,
-    icons: icons.filter((icon) => !!icon.src),
+    icons: icons.filter(icon => !!icon.src),
     gcm_sender_id: gcmSenderId,
     prefer_related_applications:
       preferRelatedApplications == null
@@ -86,10 +86,10 @@ export const respondPwaManifest = (req, res, customSettings = {}) => {
   res.end(JSON.stringify(getPwaSettings(data)));
 };
 
-export const createResponderPwaManifest = (customSettings) => (req, res) =>
+export const createResponderPwaManifest = customSettings => (req, res) =>
   respondPwaManifest(req, res, customSettings);
 
-export const registerPwaManifestHandler = (customSettings) => {
+export const registerPwaManifestHandler = customSettings => {
   WebApp.connectHandlers.use(
     MANIFEST_PATH,
     Meteor.bindEnvironment((req, res) =>
@@ -97,4 +97,3 @@ export const registerPwaManifestHandler = (customSettings) => {
     )
   );
 };
-

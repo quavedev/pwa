@@ -1,6 +1,6 @@
 Package.describe({
   name: 'quave:pwa',
-  version: '1.0.0',
+  version: '1.0.1',
   summary: 'Utility package to configure PWA',
   git: 'https://github.com/quavedev/pwa',
 });
